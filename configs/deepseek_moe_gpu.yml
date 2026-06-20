@@ -25,9 +25,9 @@ use_iota_embed: true
 attention: "dot_product"
 
 # --- Memory optimization ---
-# remat_policy=full recomputes activations during the backward pass instead of
-# storing them, reducing peak VRAM from 8.03 GB (batch=1, no remat) to
-# 4.02 GB (batch=2, remat=full). This is the primary enabler for batch=2.
+# remat_policy=full is used across GPU runs. Memory in Run 1 (batch=1) was 8.03 GB
+# due to megablox=true. Setting megablox=false and sparse_matmul=true in Run 2
+# (batch=2) reduced peak VRAM to 4.02 GB, enabling the batch size increase.
 remat_policy: "full"
 scan_layers: false
 

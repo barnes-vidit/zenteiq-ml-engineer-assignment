@@ -1,4 +1,4 @@
-# Qwen Scaled Model Configuration for TPU (Run 3)
+# Qwen Scaled Model Configuration for TPU (Run 5)
 # Model parameters: 1.092 Billion
 
 # General training config
@@ -7,10 +7,10 @@ steps: 50
 dataset_type: "synthetic"
 max_target_length: 512
 dtype: "bfloat16"
-attention: "autoselected"
+attention: "dot_product"
 
 # Batch size
-per_device_batch_size: 8
+per_device_batch_size: 12
 
 # Scaled model architecture config
 base_emb_dim: 1536

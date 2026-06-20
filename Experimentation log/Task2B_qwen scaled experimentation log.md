@@ -89,7 +89,7 @@
 ## Qwen 1.092B — TPU (v5e-1)
 
 ### Run 1 — Completed
-**Config**: batch=2, `max_target_length=512`, `attention=autoselected`, `dtype=bfloat16` (`base_emb_dim=1536`, `base_mlp_dim=4608`, `base_num_decoder_layers=28`, `base_num_query_heads=16`, `base_num_kv_heads=8`)
+**Config**: batch=2, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16` (`base_emb_dim=1536`, `base_mlp_dim=4608`, `base_num_decoder_layers=28`, `base_num_query_heads=16`, `base_num_kv_heads=8`)
 **Result**: 50 steps completed, ~0.086s/step (steady-state), ~11,847.7 tok/s, `total_weights=1024`, loss 316.594 → 35.068 (loss at step 13: 111.572, step 17: 96.104, step 49: 35.068).
 **HBM**: 6.13 GB / 15.75 GB (38.92%)
 **Fix**: Memory usage is low. Increased batch size to 4.
@@ -97,7 +97,7 @@
 ---
 
 ### Run 2 — Completed
-**Config**: batch=4, `max_target_length=512`, `attention=autoselected`, `dtype=bfloat16`
+**Config**: batch=4, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`
 **Result**: 50 steps completed, ~0.139s/step (steady-state), ~14,688.9 tok/s, `total_weights=2048`, loss 316.097 → 76.826 (loss at step 13: 119.582, step 17: 108.597, step 49: 76.826).
 **HBM**: 6.13 GB / 15.75 GB (38.92%)
 **Fix**: Increased batch size to 8.
@@ -105,7 +105,7 @@
 ---
 
 ### Run 3 — Completed
-**Config**: batch=8, `max_target_length=512`, `attention=autoselected`, `dtype=bfloat16`
+**Config**: batch=8, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`
 **Result**: 50 steps completed, ~0.252s/step (steady-state), ~16,276.1 tok/s, `total_weights=4096`, loss 318.108 → 94.667 (loss at step 13: 128.243, step 17: 117.622, step 49: 94.667).
 **HBM**: 6.13 GB / 15.75 GB (38.92%)
 **Fix**: Since batch=8 achieved a peak throughput of ~16.3k tok/s with comfortable memory usage (38.92% HBM), we increased the batch size to 10 in Run 4 to search for the memory limit and check if throughput scaling continues.
@@ -113,7 +113,7 @@
 ---
 
 ### Run 4 — Completed
-**Config**: batch=10, `max_target_length=512`, `attention=autoselected`, `dtype=bfloat16`
+**Config**: batch=10, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`
 **Result**: 50 steps completed, ~0.316s/step (steady-state), ~16,221.3 tok/s, `total_weights=5120`, loss 315.055 → 98.730 (loss at step 13: 128.936, step 17: 118.879, step 49: 98.730).
 **HBM**: 6.13 GB / 15.75 GB (38.92%)
 **Fix**: Throughput dropped at batch=10 due to JAX layout transformations or padding. We increased batch size to 12 in Run 5 to verify if this throughput drop was a padding anomaly or a persistent scaling trend.
@@ -122,7 +122,7 @@
 ---
 
 ### Run 5 — Completed
-**Config**: batch=12, `max_target_length=512`, `attention=autoselected`, `dtype=bfloat16`
+**Config**: batch=12, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`
 **Result**: 50 steps completed, ~0.373s/step (steady-state), ~16,485.4 tok/s, `total_weights=6144`, loss 318.426 → 101.320 (loss at step 13: 130.075, step 17: 120.193, step 49: 101.320).
 **HBM**: 6.13 GB / 15.75 GB (38.92%)
-**Fix/Insight**: TPU throughput peaked at batch=8 (~16.3k tok/s) and remained relatively stable at batch=10 (~16.2k tok/s) and batch=12 (~16.5k tok/s), showing the throughput ceiling of this model on TPU_0.
+**Fix/Insight**: TPU throughput peaked at batch=12 (~16.5k tok/s), showing the peak throughput ceiling of this model on TPU_0.
