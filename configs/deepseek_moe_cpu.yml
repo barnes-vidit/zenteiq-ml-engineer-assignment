@@ -1,0 +1,25 @@
+# DeepSeek MoE Model Configuration for CPU (Run 2)
+# Model parameters: 0.719 Billion
+
+# General training config
+model_name: "deepseek2-16b"
+steps: 50
+dataset_type: "synthetic"
+max_target_length: 512
+dtype: "bfloat16"
+attention: "dot_product"
+
+# Batch size
+per_device_batch_size: 2
+
+# CPU memory optimization overrides
+remat_policy: "full"
+scan_layers: true
+
+# Scaled down architecture dimensions
+base_emb_dim: 1024
+base_mlp_dim: 5472
+base_moe_mlp_dim: 704
+base_num_decoder_layers: 10
+base_num_kv_heads: 8
+base_num_query_heads: 8

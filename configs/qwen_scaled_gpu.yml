@@ -1,0 +1,23 @@
+# Qwen Scaled Model Configuration for GPU (Run 6)
+# Model parameters: 1.092 Billion
+
+# General training config
+model_name: "qwen3-0.6b"
+steps: 50
+dataset_type: "synthetic"
+max_target_length: 512
+dtype: "bfloat16"
+attention: "dot_product"
+
+# Batch size
+per_device_batch_size: 2
+
+# Memory optimization override
+remat_policy: "minimal"
+
+# Scaled model architecture config
+base_emb_dim: 1536
+base_mlp_dim: 4608
+base_num_decoder_layers: 28
+base_num_query_heads: 16
+base_num_kv_heads: 8

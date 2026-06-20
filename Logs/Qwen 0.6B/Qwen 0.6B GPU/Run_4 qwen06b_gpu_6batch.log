@@ -1,0 +1,69 @@
+/content/maxtext/src/maxtext/trainers/pre_train/train.py:629: DeprecationWarning: `with mesh:` context manager has been deprecated. Please use `with jax.set_mesh(mesh):` instead.
+  with jax.set_mesh(mesh), mesh, nn_partitioning.axis_rules(config.logical_axis_rules):
+I0618 12:36:16.281306 133931101328000 max_utils.py:806] Total memory size: 8.4 GB, Output size: 3.3 GB, Temp size: 5.1 GB, Argument size: 3.3 GB, Host temp size: 0.0 GB.
+I0618 12:36:16.281652 133931101328000 max_utils.py:199] tensorboardX not available; using no-op SummaryWriter.
+I0618 12:36:16.283985 133931101328000 metric_logger.py:334] number parameters: 0.596 billion
+I0618 12:36:17.585652 133931101328000 max_utils.py:765] 
+Memstats: After params initialized:
+I0618 12:36:17.585899 133931101328000 max_utils.py:771] 	Using (GB) 3.33 / 10.92 (30.494505%) on cuda:0
+I0618 12:36:22.194140 133931101328000 metric_logger.py:207] completed step: 0, seconds: 1.301, TFLOP/s/device: 8.862, Tokens/s/device: 2361.996, total_weights: 3072, loss: 234.398, lm_loss: 234.398, perplexity: inf
+I0618 12:36:22.196399 133931101328000 metric_logger.py:314] To see full metrics 'tensorboard --logdir=/tmp/maxtext_outputs/qwen06b_gpu/tensorboard/'
+I0618 12:36:26.328269 133931101328000 metric_logger.py:207] completed step: 1, seconds: 4.607, TFLOP/s/device: 2.502, Tokens/s/device: 666.824, total_weights: 3072, loss: 234.398, lm_loss: 234.398, perplexity: inf
+I0618 12:36:30.539690 133931101328000 metric_logger.py:207] completed step: 2, seconds: 2.939, TFLOP/s/device: 3.922, Tokens/s/device: 1045.349, total_weights: 3072, loss: 232.702, lm_loss: 232.702, perplexity: inf
+I0618 12:36:34.824584 133931101328000 metric_logger.py:207] completed step: 3, seconds: 4.198, TFLOP/s/device: 2.746, Tokens/s/device: 731.813, total_weights: 3072, loss: 225.580, lm_loss: 225.580, perplexity: inf
+I0618 12:36:39.271841 133931101328000 metric_logger.py:207] completed step: 4, seconds: 4.264, TFLOP/s/device: 2.703, Tokens/s/device: 720.505, total_weights: 3072, loss: 203.601, lm_loss: 203.601, perplexity: inf
+I0618 12:36:43.738096 133931101328000 metric_logger.py:207] completed step: 5, seconds: 4.400, TFLOP/s/device: 2.620, Tokens/s/device: 698.216, total_weights: 3072, loss: 181.149, lm_loss: 181.149, perplexity: inf
+I0618 12:36:48.261955 133931101328000 metric_logger.py:207] completed step: 6, seconds: 4.454, TFLOP/s/device: 2.588, Tokens/s/device: 689.758, total_weights: 3072, loss: 164.031, lm_loss: 164.031, perplexity: inf
+I0618 12:36:52.760207 133931101328000 metric_logger.py:207] completed step: 7, seconds: 4.521, TFLOP/s/device: 2.549, Tokens/s/device: 679.464, total_weights: 3072, loss: 152.772, lm_loss: 152.772, perplexity: inf
+I0618 12:36:57.196387 133931101328000 metric_logger.py:207] completed step: 8, seconds: 4.526, TFLOP/s/device: 2.547, Tokens/s/device: 678.817, total_weights: 3072, loss: 144.641, lm_loss: 144.641, perplexity: inf
+I0618 12:37:01.548334 133931101328000 metric_logger.py:207] completed step: 9, seconds: 4.441, TFLOP/s/device: 2.596, Tokens/s/device: 691.786, total_weights: 3072, loss: 137.895, lm_loss: 137.895, perplexity: inf
+I0618 12:37:05.824440 133931101328000 metric_logger.py:207] completed step: 10, seconds: 4.389, TFLOP/s/device: 2.626, Tokens/s/device: 699.891, total_weights: 3072, loss: 132.311, lm_loss: 132.311, perplexity: inf
+I0618 12:37:10.075274 133931101328000 metric_logger.py:207] completed step: 11, seconds: 4.276, TFLOP/s/device: 2.696, Tokens/s/device: 718.458, total_weights: 3072, loss: 127.710, lm_loss: 127.710, perplexity: inf
+I0618 12:37:14.292796 133931101328000 metric_logger.py:207] completed step: 12, seconds: 4.267, TFLOP/s/device: 2.702, Tokens/s/device: 720.015, total_weights: 3072, loss: 123.688, lm_loss: 123.688, perplexity: inf
+I0618 12:37:18.474090 133931101328000 metric_logger.py:207] completed step: 13, seconds: 4.219, TFLOP/s/device: 2.732, Tokens/s/device: 728.091, total_weights: 3072, loss: 120.150, lm_loss: 120.150, perplexity: inf
+I0618 12:37:22.694148 133931101328000 metric_logger.py:207] completed step: 14, seconds: 4.185, TFLOP/s/device: 2.754, Tokens/s/device: 734.030, total_weights: 3072, loss: 116.972, lm_loss: 116.972, perplexity: inf
+I0618 12:37:26.871293 133931101328000 metric_logger.py:207] completed step: 15, seconds: 4.206, TFLOP/s/device: 2.741, Tokens/s/device: 730.466, total_weights: 3072, loss: 114.086, lm_loss: 114.086, perplexity: inf
+I0618 12:37:31.057481 133931101328000 metric_logger.py:207] completed step: 16, seconds: 4.190, TFLOP/s/device: 2.751, Tokens/s/device: 733.200, total_weights: 3072, loss: 111.440, lm_loss: 111.440, perplexity: inf
+I0618 12:37:35.234515 133931101328000 metric_logger.py:207] completed step: 17, seconds: 4.191, TFLOP/s/device: 2.750, Tokens/s/device: 733.040, total_weights: 3072, loss: 109.008, lm_loss: 109.008, perplexity: inf
+I0618 12:37:39.434294 133931101328000 metric_logger.py:207] completed step: 18, seconds: 4.170, TFLOP/s/device: 2.764, Tokens/s/device: 736.751, total_weights: 3072, loss: 106.794, lm_loss: 106.794, perplexity: inf
+I0618 12:37:43.650506 133931101328000 metric_logger.py:207] completed step: 19, seconds: 4.199, TFLOP/s/device: 2.745, Tokens/s/device: 731.686, total_weights: 3072, loss: 104.763, lm_loss: 104.763, perplexity: inf
+I0618 12:37:47.866730 133931101328000 metric_logger.py:207] completed step: 20, seconds: 4.223, TFLOP/s/device: 2.729, Tokens/s/device: 727.387, total_weights: 3072, loss: 102.867, lm_loss: 102.867, perplexity: inf
+I0618 12:37:52.122966 133931101328000 metric_logger.py:207] completed step: 21, seconds: 4.196, TFLOP/s/device: 2.747, Tokens/s/device: 732.064, total_weights: 3072, loss: 101.125, lm_loss: 101.125, perplexity: inf
+I0618 12:37:56.400470 133931101328000 metric_logger.py:207] completed step: 22, seconds: 4.250, TFLOP/s/device: 2.712, Tokens/s/device: 722.891, total_weights: 3072, loss: 99.493, lm_loss: 99.493, perplexity: inf
+I0618 12:38:00.662805 133931101328000 metric_logger.py:207] completed step: 23, seconds: 4.273, TFLOP/s/device: 2.697, Tokens/s/device: 718.882, total_weights: 3072, loss: 97.965, lm_loss: 97.965, perplexity: inf
+I0618 12:38:04.964428 133931101328000 metric_logger.py:207] completed step: 24, seconds: 4.270, TFLOP/s/device: 2.699, Tokens/s/device: 719.375, total_weights: 3072, loss: 96.516, lm_loss: 96.516, perplexity: inf
+I0618 12:38:09.271847 133931101328000 metric_logger.py:207] completed step: 25, seconds: 4.303, TFLOP/s/device: 2.679, Tokens/s/device: 713.957, total_weights: 3072, loss: 95.170, lm_loss: 95.170, perplexity: inf
+I0618 12:38:13.600218 133931101328000 metric_logger.py:207] completed step: 26, seconds: 4.291, TFLOP/s/device: 2.686, Tokens/s/device: 715.875, total_weights: 3072, loss: 93.938, lm_loss: 93.938, perplexity: inf
+I0618 12:38:17.933811 133931101328000 metric_logger.py:207] completed step: 27, seconds: 4.327, TFLOP/s/device: 2.664, Tokens/s/device: 709.999, total_weights: 3072, loss: 92.819, lm_loss: 92.819, perplexity: inf
+I0618 12:38:22.252730 133931101328000 metric_logger.py:207] completed step: 28, seconds: 4.335, TFLOP/s/device: 2.659, Tokens/s/device: 708.670, total_weights: 3072, loss: 91.831, lm_loss: 91.831, perplexity: inf
+I0618 12:38:26.568057 133931101328000 metric_logger.py:207] completed step: 29, seconds: 4.322, TFLOP/s/device: 2.667, Tokens/s/device: 710.851, total_weights: 3072, loss: 91.035, lm_loss: 91.035, perplexity: inf
+I0618 12:38:30.885025 133931101328000 metric_logger.py:207] completed step: 30, seconds: 4.310, TFLOP/s/device: 2.674, Tokens/s/device: 712.749, total_weights: 3072, loss: 90.468, lm_loss: 90.468, perplexity: inf
+I0618 12:38:35.159738 133931101328000 metric_logger.py:207] completed step: 31, seconds: 4.336, TFLOP/s/device: 2.658, Tokens/s/device: 708.407, total_weights: 3072, loss: 89.930, lm_loss: 89.930, perplexity: inf
+I0618 12:38:39.447490 133931101328000 metric_logger.py:207] completed step: 32, seconds: 4.282, TFLOP/s/device: 2.692, Tokens/s/device: 717.457, total_weights: 3072, loss: 89.412, lm_loss: 89.412, perplexity: inf
+I0618 12:38:43.719657 133931101328000 metric_logger.py:207] completed step: 33, seconds: 4.272, TFLOP/s/device: 2.698, Tokens/s/device: 719.035, total_weights: 3072, loss: 88.923, lm_loss: 88.923, perplexity: inf
+I0618 12:38:47.988839 133931101328000 metric_logger.py:207] completed step: 34, seconds: 4.271, TFLOP/s/device: 2.699, Tokens/s/device: 719.310, total_weights: 3072, loss: 88.467, lm_loss: 88.467, perplexity: 263496145675724976033862634308850679808.000
+I0618 12:38:52.255255 133931101328000 metric_logger.py:207] completed step: 35, seconds: 4.279, TFLOP/s/device: 2.694, Tokens/s/device: 717.928, total_weights: 3072, loss: 88.047, lm_loss: 88.047, perplexity: 173124320264974319417641465435031339008.000
+I0618 12:38:56.508105 133931101328000 metric_logger.py:207] completed step: 36, seconds: 4.260, TFLOP/s/device: 2.706, Tokens/s/device: 721.185, total_weights: 3072, loss: 87.660, lm_loss: 87.660, perplexity: 117555416152888024334433380172533071872.000
+I0618 12:39:00.772986 133931101328000 metric_logger.py:207] completed step: 37, seconds: 4.260, TFLOP/s/device: 2.706, Tokens/s/device: 721.082, total_weights: 3072, loss: 87.316, lm_loss: 87.316, perplexity: 83352904884515761375145195067406286848.000
+I0618 12:39:05.037157 133931101328000 metric_logger.py:207] completed step: 38, seconds: 4.256, TFLOP/s/device: 2.708, Tokens/s/device: 721.803, total_weights: 3072, loss: 87.056, lm_loss: 87.056, perplexity: 64229553860074369309244833403380957184.000
+I0618 12:39:09.261049 133931101328000 metric_logger.py:207] completed step: 39, seconds: 4.283, TFLOP/s/device: 2.691, Tokens/s/device: 717.210, total_weights: 3072, loss: 86.904, lm_loss: 86.904, perplexity: 55206092369096174002664516831494012928.000
+I0618 12:39:13.524716 133931101328000 metric_logger.py:207] completed step: 40, seconds: 4.212, TFLOP/s/device: 2.737, Tokens/s/device: 729.394, total_weights: 3072, loss: 86.766, lm_loss: 86.766, perplexity: 48089927830016570827740927928790155264.000
+I0618 12:39:17.787322 133931101328000 metric_logger.py:207] completed step: 41, seconds: 4.260, TFLOP/s/device: 2.706, Tokens/s/device: 721.165, total_weights: 3072, loss: 86.625, lm_loss: 86.625, perplexity: 41763091290181079254247291210977771520.000
+I0618 12:39:22.060753 133931101328000 metric_logger.py:207] completed step: 42, seconds: 4.275, TFLOP/s/device: 2.696, Tokens/s/device: 718.589, total_weights: 3072, loss: 86.515, lm_loss: 86.515, perplexity: 37405643763944558944954493678754201600.000
+I0618 12:39:26.339676 133931101328000 metric_logger.py:207] completed step: 43, seconds: 4.258, TFLOP/s/device: 2.707, Tokens/s/device: 721.424, total_weights: 3072, loss: 86.403, lm_loss: 86.403, perplexity: 33460692278323504939367526362966392832.000
+I0618 12:39:30.621543 133931101328000 metric_logger.py:207] completed step: 44, seconds: 4.282, TFLOP/s/device: 2.692, Tokens/s/device: 717.400, total_weights: 3072, loss: 86.305, lm_loss: 86.305, perplexity: 30336420326591407104768327695745417216.000
+I0618 12:39:34.920338 133931101328000 metric_logger.py:207] completed step: 45, seconds: 4.281, TFLOP/s/device: 2.693, Tokens/s/device: 717.619, total_weights: 3072, loss: 86.221, lm_loss: 86.221, perplexity: 27880986184551727666986819573744926720.000
+I0618 12:39:39.223909 133931101328000 metric_logger.py:207] completed step: 46, seconds: 4.282, TFLOP/s/device: 2.692, Tokens/s/device: 717.471, total_weights: 3072, loss: 86.184, lm_loss: 86.184, perplexity: 26860793657994050926956287801090375680.000
+I0618 12:39:43.511299 133931101328000 metric_logger.py:207] completed step: 47, seconds: 4.307, TFLOP/s/device: 2.676, Tokens/s/device: 713.193, total_weights: 3072, loss: 86.141, lm_loss: 86.141, perplexity: 25739703749561808495943027433507127296.000
+I0618 12:39:47.814805 133931101328000 metric_logger.py:207] completed step: 48, seconds: 4.309, TFLOP/s/device: 2.675, Tokens/s/device: 712.965, total_weights: 3072, loss: 86.108, lm_loss: 86.108, perplexity: 24900615393656337977586723660991823872.000
+I0618 12:39:52.109799 133931101328000 metric_logger.py:207] completed step: 49, seconds: 4.287, TFLOP/s/device: 2.689, Tokens/s/device: 716.608, total_weights: 3072, loss: 86.067, lm_loss: 86.067, perplexity: 23899417343692481026908218489166626816.000
+[DECOUPLED NO-OP] gcs_storage: using stubs.
+[DECOUPLED NO-OP] mldiagnostics: using stub.
+[DECOUPLED NO-OP] mldiagnostics: using stub.
+[DECOUPLED NO-OP] mldiagnostics: using stub.
+[DECOUPLED NO-OP] workload_monitor: using stub.
+[DECOUPLED NO-OP] vertex_tensorboard: using stub.
+Per train step:
+ Total TFLOPs: 11.53 
+ split as 95.30% learnable weight flops and 4.70% attention flops
+=== DONE ===

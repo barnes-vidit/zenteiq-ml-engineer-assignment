@@ -1,0 +1,24 @@
+# Qwen Scaled Model Configuration for CPU (Run 2)
+# Model parameters: 0.732 Billion
+
+# General training config
+model_name: "qwen3-0.6b"
+steps: 50
+dataset_type: "synthetic"
+max_target_length: 512
+dtype: "bfloat16"
+attention: "dot_product"
+
+# Batch size
+per_device_batch_size: 1
+
+# CPU memory optimization overrides
+remat_policy: "full"
+scan_layers: true
+
+# Scaled model architecture config
+base_emb_dim: 1152
+base_mlp_dim: 3456
+base_num_decoder_layers: 28
+base_num_query_heads: 18
+base_num_kv_heads: 9
