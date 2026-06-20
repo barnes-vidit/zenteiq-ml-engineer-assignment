@@ -18,10 +18,12 @@ This document summarizes the best-performing runs for each model-backend configu
 | **Qwen Scaled** | **GPU (T4)** | Run 6 | 2 | 1.092B | `emb=1536`, `16q/8kv` *(target arch)* | 2.405 | 426.926 | 2.873 | 55.86% VRAM (6.10 GB) |
 | **Qwen Scaled** | **TPU (v5e)** | Run 3 | 8 | 1.092B | `emb=1536`, `16q/8kv` *(target arch)* | 0.252 | 16,276.122 | 109.524 | 38.92% HBM (6.13 GB) |
 | **DeepSeek MoE**| **CPU** | Run 2 | 2 | 0.719B | `emb=1024`, MoE | 144.363 | 7.095 | 0.007 | 9.1 GB Host RAM |
-| **DeepSeek MoE**| **GPU (T4)** | Run 2 | 2 | 0.719B | `emb=1024`, MoE | 5.206 | 1015.494 | 0.929 | 36.81% VRAM (4.02 GB) |
+| **DeepSeek MoE**| **GPU (T4)** ⚠️ | Run 2 | 2 | 0.719B | `emb=1024`, MoE | 5.410 | 189.274 | 0.173 | 36.81% VRAM (4.02 GB) |
 | **DeepSeek MoE**| **TPU (v5e)** | Run 5 | 8 | 0.719B | `emb=1024`, MoE | 0.112 | 36,704.153 | 33.585 | 25.90% HBM (4.08 GB) |
 
 *⚠️ The Qwen Scaled CPU row uses a structurally different architecture (`emb_dim=1152`, `18q/9kv`) from the GPU/TPU target (`emb_dim=1536`, `16q/8kv`). It is a hardware capability bound measurement, not an apples-to-apples comparison. See the Qwen Scaled section below for details.*
+
+*⚠️ The DeepSeek MoE GPU run is throughput-*regressed* relative to dense Qwen 0.6B on the same hardware/batch size (189.27 tok/s vs 641.62 tok/s) due to `remat_policy=full` recomputation overhead required to fit the model in T4 VRAM. This is the slowest of the three MoE backends relative to its dense counterpart — see the DeepSeek MoE section below for details.*
 
 *Note: For the Qwen Scaled model on CPU, two configurations completed: the 0.732B model (highest throughput at 5.29 tok/s) and the 0.767B model (maximum parameter capacity trained on CPU at 5.01 tok/s). Both are detailed below. **These CPU configs use a different architecture shape than the GPU/TPU target** — see the ⚠️ note in the table above.*
 
@@ -109,15 +111,17 @@ This document summarizes the best-performing runs for each model-backend configu
     *   *TFLOPs/sec*: **0.007 TFLOPs/s**
     *   *Step Time*: **144.363 seconds/step**
     *   *Memory Footprint*: 9.1 GB Host RAM (Output: 4.0 GB, Temp: 5.1 GB, Argument: 4.0 GB).
-    *   *Selection Rationale*: Maximize CPU utilization and throughput, yielding +11.6% more tokens per second than batch=1 (6.36 tok/s).
+    *   *Selection Rationale*: Maximize CPU utilization and throughput, yielding +11.6% more tokens per second than batch=1 (6.36 tok/s). Slightly faster than dense Qwen 0.6B on CPU at the same batch size (7.10 vs 6.99 tok/s) — CPU is bottlenecked elsewhere (compile-time RAM, no hardware MXU), so the sparsity advantage barely registers.
 
 *   **GPU Backend (Best: Run 2)**
+    > [!IMPORTANT]
+    > This is a throughput **regression**, not a win. MoE on GPU (189.27 tok/s) is ~3.4x **slower** than dense Qwen 0.6B at the same batch size (641.62 tok/s) — the opposite of the TPU result below. `remat_policy=full` was required to fit the model in the T4's 16 GB VRAM, and the recomputation overhead it introduces outweighs the sparse-routing compute savings on this hardware. See the Task 3 writeup for full reasoning.
     *   *Log File*: [2batch_withtricks.log](../Logs/Deepseek%20MOE/GPU/2batch_withtricks.log)
-    *   *Throughput*: **1015.494 tok/s**
-    *   *TFLOPs/sec*: **0.929 TFLOPs/s**
-    *   *Step Time*: **5.206 seconds/step**
+    *   *Throughput*: **189.274 tok/s**
+    *   *TFLOPs/sec*: **0.173 TFLOPs/s**
+    *   *Step Time*: **5.410 seconds/step**
     *   *Memory Footprint*: 8.5 GB compile-time memory, utilizing **36.81% VRAM (4.02 GB)** on Nvidia Tesla T4.
-    *   *Selection Rationale*: Enabling `remat_policy=full` (activation rematerialization) cut VRAM from 73.53% at batch=1 (no remat, 8.03 GB) to 36.81% at batch=2 (4.02 GB), by recomputing activations during the backward pass rather than storing them. This freed enough VRAM to double the batch size and scale throughput to **1,015.49 tok/s** (highest GPU MoE speed). The `ici_parallelism=[1,1,1,-1,...]` flag was present in the run but is a no-op on a single T4 (`num_devices=1`).
+    *   *Selection Rationale*: Enabling `remat_policy=full` (activation rematerialization) cut VRAM from 73.53% at batch=1 (no remat, 8.03 GB) to 36.81% at batch=2 (4.02 GB), by recomputing activations during the backward pass rather than storing them. This freed enough VRAM to double the batch size to 2, the highest batch size achieved for GPU MoE — but at the cost of step time, since rematerialization re-runs the forward pass during the backward pass. Net throughput (189.27 tok/s) is markedly below the dense Qwen 0.6B GPU baseline at the same batch size. The `ici_parallelism=[1,1,1,-1,...]` flag was present in the run but is a no-op on a single T4 (`num_devices=1`).
 
 *   **TPU Backend (Best: Run 5)**
     *   *Log File*: [8batch.log](../Logs/Deepseek%20MOE/TPU/8batch.log)
@@ -125,4 +129,4 @@ This document summarizes the best-performing runs for each model-backend configu
     *   *TFLOPs/sec*: **33.585 TFLOPs/s**
     *   *Step Time*: **0.112 seconds/step**
     *   *Memory Footprint*: 7.6 GB compile-time memory, utilizing **25.90% HBM (4.08 GB)** on TPU_0.
-    *   *Selection Rationale*: Represents the absolute peak throughput achieved for the MoE model across all devices. The sparse execution paths of MoE scaled highly linearly, yielding 4.8x higher throughput at batch=8 compared to batch=1 (7,696 tok/s) with virtually no extra HBM memory growth.
+    *   *Selection Rationale*: Represents the absolute peak throughput achieved for the MoE model across all devices. The sparse execution paths of MoE scaled highly linearly, yielding 4.8x higher throughput at batch=8 compared to batch=1 (7,696 tok/s) with virtually no extra HBM memory growth. Unlike the GPU run, no rematerialization was needed on TPU at this batch size, so MoE's sparsity advantage shows through cleanly here (36,704 tok/s vs 26,053 tok/s for dense Qwen 0.6B, ~40.9% faster).

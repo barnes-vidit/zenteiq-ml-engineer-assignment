@@ -33,7 +33,7 @@
 
 ### Run 2 — Completed (with Sharding Tricks)
 **Config**: batch=2, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`, **`remat_policy=full`** (activation rematerialization)
-**Result**: 50 steps completed, ~5.21s/step (steady-state), ~1015.49 tok/s, `total_weights=1024`, loss 9.485 → 6.493 (loss at step 13: 8.263, step 17: 7.814, step 49: 6.493).
+**Result**: 50 steps completed, ~5.41s/step (steady-state), ~189.27 tok/s, `total_weights=1024`, loss 9.485 → 6.493 (loss at step 13: 8.263, step 17: 7.814, step 49: 6.493).
 **VRAM**: 4.02 GB / 10.92 GB (36.81%)
 **Insight**: Enabling `remat_policy=full` reduced peak VRAM by ~50% (from 8.03 GB to 4.02 GB) despite doubling the batch size. This works by recomputing forward-pass activations during the backward pass rather than storing them — trading extra compute for memory. Note: `ici_parallelism=[1,1,1,-1,...]` was also set but has no effect with `num_devices=1`; on a single T4, `ici_fsdp_parallelism=-1` resolves to a shard size of 1.
 

@@ -6,7 +6,7 @@ MaxText manages these requirements using the `dataset_type` parameter, which sup
 
 ---
 
-## 1. Grain (`dataset_type=grain`) — *The JAX-Native Standard*
+## 1. Grain (`dataset_type=grain`)
 [Grain](https://github.com/google/grain) is Google's JAX-native data-loading library designed specifically to replace TensorFlow-based pipelines in JAX workflows.
 
 *   **First-Principles Design**: Unlike traditional data loaders that stream sequentially, Grain works on **index-based sampling**. It decouples the *sampler* (which chooses which index to read next) from the *loader* (which reads the data). This enables mathematical determinism: even if training crashes at step 10,000, Grain can resume and recreate the exact sample sequence dynamically by calculating the random state at index 10,000.
@@ -18,7 +18,7 @@ MaxText manages these requirements using the `dataset_type` parameter, which sup
 
 ---
 
-## 2. Hugging Face (`dataset_type=hf`) — *For Prototyping & Convenience*
+## 2. Hugging Face (`dataset_type=hf`)
 This pipeline integrates directly with the Hugging Face ecosystem, utilizing their streaming APIs.
 
 *   **First-Principles Design**: MaxText configures the Hugging Face `datasets.load_dataset` API with `streaming=True`. Instead of downloading a massive dataset (like C4 or FineWeb) to local disk, the data is fetched as a sequence of network streams (HTTP chunks or GCS calls).
@@ -29,7 +29,7 @@ This pipeline integrates directly with the Hugging Face ecosystem, utilizing the
 
 ---
 
-## 3. TensorFlow Datasets (`dataset_type=tfds`) — *Legacy Compatibility*
+## 3. TensorFlow Datasets (`dataset_type=tfds`)
 An older pipeline that uses the traditional TensorFlow Datasets (TFDS) ecosystem.
 
 *   **First-Principles Design**: Relying on TFDS, this pipeline uses TensorFlow-native operations (`tf.data`) to read, parse, and shard data.
@@ -41,7 +41,7 @@ An older pipeline that uses the traditional TensorFlow Datasets (TFDS) ecosystem
 
 ---
 
-## 4. Synthetic (`dataset_type=synthetic`) — *Compute Profiling*
+## 4. Synthetic (`dataset_type=synthetic`)
 Synthetic data is generated programmatically in-memory, completely bypassing the disk and network.
 
 *   **First-Principles Design**: Instead of reading files, MaxText uses JAX's pseudo-random number generator (`jax.random.uniform` or similar) to generate dummy token IDs directly in-memory matching the target tensor shapes (e.g., `[batch_size, sequence_length]`).

@@ -6,7 +6,7 @@
 
 ### Run 1 — FAILED (OOM)
 **Config**: `base_emb_dim=1536`, `base_mlp_dim=4608`, `base_num_decoder_layers=28`, `base_num_query_heads=16`, `base_num_kv_heads=8` (Qwen 1.092B configuration), `max_target_length=512`, `batch=1`, `attention=dot_product`, `dtype=bfloat16`, `remat_policy=full`, `scan_layers=true`
-**Result**: JAX/XLA compilation OOM crash (process killed by OS, exit code 137).  
+**Result**: JAX/XLA compilation OOM crash (process killed by OS, exit code 137) (see [Run_1_OOM_1.092B.log](../Logs/Qwen%20Scaled/Qwen%20scaled%20CPU/Run_1_OOM_1.092B.log)).  
 **Cause**: Compiling a 1.092B parameter model under JAX/XLA exceeds the available 12 GB CPU host RAM during graph compilation.
 **Fix**: Scaled down the model parameters to 0.732B by reducing hidden/MLP dimensions.
 

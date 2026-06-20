@@ -10,15 +10,15 @@
 | Backend | Best Run | Model Size (Total) | Batch Size | Step Time | Throughput | MFU (TFLOPs/s/dev) | Memory |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **CPU** | Run 2 | 0.719B | 2 | 144.36s | 7.10 tok/s | 0.007 | 9.1 GB Host RAM |
-| **GPU (T4)** | Run 2 | 0.719B | 2 | 5.21s | 1015.49 tok/s | 0.929 | 4.02 GB VRAM |
+| **GPU (T4)** | Run 2 | 0.719B | 2 | 5.41s | 189.27 tok/s | 0.173 | 4.02 GB VRAM |
 | **TPU (v5e)** | Run 5 | 0.719B | 8 | 0.112s | 36,704.15 tok/s | 33.585 | 4.08 GB HBM |
 
-### 📈 Throughput Comparison & Speedup Scale
+### Throughput comparison across backends
 ```text
 CPU (1x)       | 7.10 tok/s
                | ▏
-GPU T4 (143x)  | 1015.49 tok/s
-               | █
+GPU T4 (27x)   | 189.27 tok/s
+               | ▎
 TPU v5e (5169x)| 36,704.15 tok/s
                | █████████████████████████████████████████
 ```
@@ -44,8 +44,9 @@ This configuration yields a total parameter count of **0.719 Billion**.
 * This means only 4 out of 33 possible MLP pathways are evaluated per token, dramatically reducing the FLOPs required per token relative to the model's total size.
 
 ### 3. Comparison to Dense (Qwen) Runs
-* **Higher Throughput**: DeepSeek MoE achieves significantly higher throughput than dense models of comparable sizes. For example:
-  * **On GPU**: MoE achieves **1,015.49 tok/s** (batch=2) compared to **641.00 tok/s** for Qwen 0.6B at the same batch size.
-  * **On TPU**: MoE reaches **36,704.15 tok/s** (batch=8) compared to **26,052.58 tok/s** for Qwen 0.6B and **16,276.12 tok/s** for the larger Qwen Scaled (1.09B) model.
+* **MoE throughput vs dense**: The throughput advantage of DeepSeek MoE over dense models is highly dependent on the hardware backend:
+  * **On TPU**: MoE achieves a dramatic speedup, reaching **36,704.15 tok/s** (batch=8) compared to **26,052.58 tok/s** for Qwen 0.6B (~40.9% faster) and **16,276.12 tok/s** for the larger Qwen Scaled (1.09B) model (~2.25x faster).
+  * **On GPU**: MoE is significantly slower, achieving only **189.27 tok/s** (batch=2) compared to **641.62 tok/s** for Qwen 0.6B at the same batch size. This performance regression is due to activation rematerialization overhead (`remat_policy=full`) required to fit MoE in the T4 GPU's VRAM, as well as sparse routing kernel overheads.
+  * **On CPU**: MoE achieves **7.10 tok/s** (batch=2), which is slightly faster than Qwen 0.6B (**6.99 tok/s**).
 * **Lower TFLOPs/s/dev (MFU)**: The Model Flops Utilization metrics are much lower for the MoE runs (e.g., 33.585 TFLOPs/s/dev on TPU vs. 109.524 TFLOPs/s/dev for Qwen Scaled). This is because the MFU metric calculates FLOPs based on the *total* parameter count (assuming all experts run), whereas the hardware is only doing compute work for the active subset of parameters.
 * **Activation Rematerialization Impact**: On GPU, Run 1 (batch=1, no `remat_policy`) consumed 73.53% VRAM (8.03 GB) storing all intermediate activations. Scaling directly to batch=2 would have OOM'd. Run 2 enabled `remat_policy=full`, which recomputes forward-pass activations on demand during the backward pass instead of storing them in VRAM — halving peak activation memory and allowing batch=2 to comfortably fit within 4.02 GB (36.81% VRAM). The `ici_parallelism=[1,1,1,-1,...]` flag present in the run config has no effect on a single-device T4 (`ici_fsdp_parallelism=-1` resolves to a shard count of 1 with `num_devices=1`).
