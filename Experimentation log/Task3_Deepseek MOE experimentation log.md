@@ -7,7 +7,7 @@
 
 ### Run 1 — Completed
 **Config**: batch=1, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`, `remat_policy=full`, `scan_layers=true`
-**Result**: 50 steps completed, ~80.49s/step (steady-state), ~6.36 tok/s, `total_weights=512`, loss 9.497 → 4.059 (loss at step 13: 7.196, step 17: 6.382, step 49: 4.059).
+**Result**: 50 steps completed, ~79.78s/step (steady-state), ~6.42 tok/s, `total_weights=512`, loss 9.497 → 4.059 (loss at step 13: 7.196, step 17: 6.382, step 49: 4.059).
 **RAM**: Total memory size: 8.7 GB (Output size: 4.0 GB, Temp size: 4.7 GB, Argument size: 4.0 GB).
 **Fix**: Increased batch size to 2 to evaluate scaling behavior on CPU.
 
@@ -15,9 +15,9 @@
 
 ### Run 2 — Completed
 **Config**: batch=2, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`, `remat_policy=full`, `scan_layers=true`
-**Result**: 50 steps completed, ~144.36s/step (steady-state), ~7.10 tok/s, `total_weights=1024`, loss 9.507 → 5.421 (loss at step 13: 7.818, step 17: 7.207, step 49: 5.421).
+**Result**: 50 steps completed, ~142.65s/step (steady-state), ~7.18 tok/s, `total_weights=1024`, loss 9.507 → 5.421 (loss at step 13: 7.818, step 17: 7.207, step 49: 5.421).
 **RAM**: Total memory size: 9.1 GB (Output size: 4.0 GB, Temp size: 5.1 GB, Argument size: 4.0 GB).
-**Insight**: Doubling the batch size increased throughput from 6.36 tok/s to 7.10 tok/s (+11.6%) at the cost of higher latency per step (144.36s vs 80.49s).
+**Insight**: Doubling the batch size increased throughput from 6.42 tok/s to 7.18 tok/s (+11.9%) at the cost of higher latency per step (142.65s vs 79.78s).
 
 ---
 
@@ -25,7 +25,7 @@
 
 ### Run 1 — Completed
 **Config**: batch=1, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`, `remat_policy=full`
-**Result**: 50 steps completed, ~0.94s/step (steady-state), ~1003.26 tok/s, `total_weights=512`, loss 9.470 → 0.010 (loss at step 13: 2.099, step 17: 0.734, step 49: 0.010).
+**Result**: 50 steps completed, ~0.985s/step (steady-state), ~519.93 tok/s, `total_weights=512`, loss 9.470 → 0.010 (loss at step 13: 2.099, step 17: 0.734, step 49: 0.010).
 **VRAM**: 8.03 GB / 10.92 GB (73.53%)
 **Fix**: Rapid loss collapse/memorization occurred at batch=1. Both GPU runs utilized `remat_policy=full`. However, Run 1 had block-sparse compilation enabled (`megablox=true`, `sparse_matmul=false`), which resulted in a high memory footprint of 8.03 GB (73.53%). Directly scaling to batch=2 under these settings would have caused an CUDA OOM. The fix was turning off megablox (`megablox=false`) and enabling native sparse matrix multiply (`sparse_matmul=true`) in Run 2, which reduced peak memory.
 

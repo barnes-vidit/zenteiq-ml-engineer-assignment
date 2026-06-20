@@ -27,7 +27,7 @@ Table values are taken from the final `completed step: 49` metric line of the se
 
 *⚠️ The DeepSeek MoE GPU run is throughput-*regressed* relative to dense Qwen 0.6B on the same hardware/batch size (189.27 tok/s vs 641.62 tok/s) due to `remat_policy=full` recomputation overhead required to fit the model in T4 VRAM. This is the slowest of the three MoE backends relative to its dense counterpart — see the DeepSeek MoE section below for details.*
 
-*Note: For the Qwen Scaled model on CPU, two configurations completed: the 0.732B model (highest throughput at 5.29 tok/s) and the 0.767B model (maximum parameter capacity trained on CPU at 5.01 tok/s). Both are detailed below. **These CPU configs use a different architecture shape than the GPU/TPU target** — see the ⚠️ note in the table above.*
+*Note: For the Qwen Scaled model on CPU, two configurations completed: the 0.732B model (highest throughput at 5.323 tok/s) and the 0.767B model (maximum parameter capacity trained on CPU at 5.01 tok/s). Both are detailed below. **These CPU configs use a different architecture shape than the GPU/TPU target** — see the ⚠️ note in the table above.*
 
 ---
 
@@ -91,7 +91,7 @@ Table values are taken from the final `completed step: 49` metric line of the se
     *   *TFLOPs/sec*: **2.865 TFLOPs/s**
     *   *Step Time*: **2.405 seconds/step**
     *   *Memory Footprint*: 10.8 GB compile-time RAM, utilizing **55.86% VRAM (6.10 GB)** on Nvidia Tesla T4.
-    *   *Selection Rationale*: Utilizing the minimal rematerialization policy (`remat_policy=minimal`) at batch=2 reduced step time (from 2.67s to 2.41s) and boosted throughput to 425.71 tok/s, outperforming the larger batch size of 5 (420.75 tok/s).
+    *   *Selection Rationale*: Utilizing the minimal rematerialization policy (`remat_policy=minimal`) at batch=2 reduced step time (from 2.41s to 2.41s) and boosted throughput to 425.71 tok/s, outperforming the larger batch size of 5 (420.75 tok/s).
 
 *   **TPU Backend (Best: Run 5)**
     *   *Model Size*: **1.092 Billion parameters** (Config: `base_emb_dim=1536`, `base_mlp_dim=4608`, `base_num_decoder_layers=28`, `base_num_query_heads=16`, `base_num_kv_heads=8`)
@@ -131,4 +131,4 @@ Table values are taken from the final `completed step: 49` metric line of the se
     *   *TFLOPs/sec*: **33.585 TFLOPs/s**
     *   *Step Time*: **0.112 seconds/step**
     *   *Memory Footprint*: 7.6 GB compile-time memory, utilizing **25.90% HBM (4.08 GB)** on TPU_0.
-    *   *Selection Rationale*: Represents the absolute peak throughput achieved for the MoE model across all devices. The sparse execution paths of MoE scaled highly linearly, yielding 4.8x higher throughput at batch=8 compared to batch=1 (7,696 tok/s) with virtually no extra HBM memory growth. Unlike the GPU run, no rematerialization was needed on TPU at this batch size, so MoE's sparsity advantage shows through cleanly here (36,704 tok/s vs 26,053 tok/s for dense Qwen 0.6B, ~40.9% faster).
+    *   *Selection Rationale*: Represents the absolute peak throughput achieved for the MoE model across all devices. The sparse execution paths of MoE scaled highly linearly, yielding 4.8x higher throughput at batch=8 compared to batch=1 (7,696 tok/s) with virtually no extra HBM memory growth. Unlike the GPU run, no rematerialization was needed on TPU at this batch size, so MoE's sparsity advantage shows through cleanly here (36,704 tok/s vs 26,492 tok/s for dense Qwen 0.6B, ~38.6% faster).

@@ -14,7 +14,7 @@
 
 ### Run 2 — Completed [0.732B]
 **Config**: `base_emb_dim=1152`, `base_mlp_dim=3456`, `base_num_decoder_layers=28`, `base_num_query_heads=18`, `base_num_kv_heads=9`, `max_target_length=512`, `batch=1`, `attention=dot_product`, `dtype=bfloat16`, `remat_policy=full`, `scan_layers=true`
-**Result**: 50 steps completed, ~96.75s/step (steady-state), ~5.29 tok/s, `total_weights=512`, loss 242.036 → 14.844 (loss at step 13: 96.599, step 17: 79.935, step 49: 14.844).
+**Result**: 50 steps completed, ~96.75s/step (steady-state), ~5.323 tok/s, `total_weights=512`, loss 242.036 → 14.844 (loss at step 13: 96.599, step 17: 79.935, step 49: 14.844).
 **RAM**: Total memory size: 9.6 GB (Output size: 4.1 GB, Temp size: 5.5 GB, Argument size: 4.1 GB).
 **Fix**: Proactively scaled the model parameters up slightly to 0.767B to utilize the remaining available RAM.
 
@@ -40,7 +40,7 @@
 
 ### Run 1 — Completed
 **Config**: batch=1, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16` (`base_emb_dim=1536`, `base_mlp_dim=4608`, `base_num_decoder_layers=28`, `base_num_query_heads=16`, `base_num_kv_heads=8`)
-**Result**: 50 steps completed, ~1.39s/step (steady-state), ~369.26 tok/s, `total_weights=512`, loss 315.844 → 0.064 (loss at step 13: 91.473, step 17: 63.781, step 49: 0.064).
+**Result**: 50 steps completed, ~1.33s/step (steady-state), ~384.69 tok/s, `total_weights=512`, loss 315.844 → 0.064 (loss at step 13: 91.473, step 17: 63.781, step 49: 0.064).
 **VRAM**: 6.1 GB / 10.92 GB (55.86%)
 **Fix**: Loss collapsed rapidly due to small batch size (1). Increased batch size to 2 to normalize loss and utilize hardware.
 
@@ -48,7 +48,7 @@
 
 ### Run 2 — Completed
 **Config**: batch=2, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`
-**Result**: 50 steps completed, ~2.67s/step (steady-state), ~383.28 tok/s, `total_weights=1024`, loss 327.618 → 32.537 (loss at step 13: 111.470, step 17: 95.272, step 49: 32.537).
+**Result**: 50 steps completed, ~2.65s/step (steady-state), ~386.73 tok/s, `total_weights=1024`, loss 327.618 → 32.537 (loss at step 13: 111.470, step 17: 95.272, step 49: 32.537).
 **VRAM**: 6.1 GB / 10.92 GB (55.86%)
 **Fix**: Loss generalized successfully (no collapse). Increased batch size to 4 to scale up.
 
@@ -72,7 +72,7 @@
 
 ### Run 5 — Completed
 **Config**: batch=5, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`
-**Result**: 50 steps completed, ~6.12s/step (steady-state), ~420.75 tok/s, `total_weights=2560`, loss 334.128 → 81.043 (loss at step 13: 127.146, step 17: 114.274, step 49: 81.043).
+**Result**: 50 steps completed, ~6.21s/step (steady-state), ~412.07 tok/s, `total_weights=2560`, loss 334.128 → 81.043 (loss at step 13: 127.146, step 17: 114.274, step 49: 81.043).
 **VRAM**: 6.1 GB / 10.92 GB (55.86%)
 **Fix**: Peak batch size of 5 reached for default rematerialization configuration. Explored performance benefits of custom rematerialization policies (`remat_policy=minimal`) at batch=2 (Run 6).
 
@@ -80,9 +80,9 @@
 
 ### Run 6 — Completed
 **Config**: batch=2, remat policy = minimal, `max_target_length=512`, `attention=dot_product`, `dtype=bfloat16`
-**Result**: 50 steps completed, ~2.41s/step (steady-state), ~426.93 tok/s, `total_weights=1024`, loss 327.746 → 32.500 (loss at step 13: 111.400, step 17: 95.235, step 49: 32.500).
+**Result**: 50 steps completed, ~2.41s/step (steady-state), ~425.71 tok/s, `total_weights=1024`, loss 327.746 → 32.500 (loss at step 13: 111.400, step 17: 95.235, step 49: 32.500).
 **VRAM**: 6.1 GB / 10.92 GB (55.86%)
-**Fix**: Using `remat_policy=minimal` reduced step time (from 2.67s to 2.41s) and increased throughput to 426.93 tok/s (highest among GPU runs) for batch=2.
+**Fix**: Using `remat_policy=minimal` reduced step time (from 2.65s to 2.41s) and increased throughput to 425.71 tok/s (highest among GPU runs) for batch=2.
 
 ---
 

@@ -24,7 +24,9 @@ vocab_size: 8192
 use_iota_embed: false
 
 # --- Attention ---
-# TPU v5e selects Flash Attention (Pallas) via dot_product override here;
+# attention=dot_product forces the standard (non-Pallas) attention path on TPU.
+# This avoids Pallas/Flash kernel compatibility issues on v5e; Flash Attention
+# would require attention=flash or attention=autoselected instead.
 attention: "dot_product"
 
 # --- Memory ---

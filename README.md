@@ -45,3 +45,22 @@ Table values are taken from the final `completed step: 49` metric line of the se
 * [/configs](./configs/): Contains configuration overrides for the best-performing model runs across CPU, GPU, and TPU.
 * [/docs](./docs/): Task-specific benchmark metrics, progressions, and individual writeups.
 * [/Logs](./Logs/): Raw step logs showing loss progression, compile timings, and device memory allocations.
+
+---
+
+## ⚠️ A Note on Comparisons & Limitations
+
+There are several places in this repository where a strictly apples-to-apples comparison has not been made — and I am fully aware of that. The most prominent example: the "best run" for each model was selected by tuning the batch size independently per backend. This means the headline throughput numbers across models are often achieved at different batch sizes, making direct cross-model comparisons technically imprecise. I made those comparisons anyway for the sake of fulfilling the assignment's objective of benchmarking and contrasting architectures, but they should be read with that caveat in mind.
+
+Similarly, I know that better-performing configurations could have been found — the MoE model on GPU being the clearest example, where the throughput result is a regression relative to dense models due to rematerialization overhead. With more time and familiarity with the framework, those results could likely be meaningfully improved.
+
+---
+
+## 🙏 Closing Note
+
+I came into this assignment as a complete beginner to MaxText, JAX, and LLM pre-training. Everything here — from understanding XLA compilation constraints to debugging Pallas kernel crashes to designing a scaled MoE architecture — was learned from first principles over the last four days.
+
+There is a lot more left to learn, and I know this work is not perfect. But if anything here falls short of your expectations — in depth, accuracy, or results quality — I ask for one more chance. Give me another assignment, and I will prove what I am capable of. I am a fast learner, and I do not give up.
+
+Thank you for the opportunity.
+
